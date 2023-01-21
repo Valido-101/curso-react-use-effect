@@ -31,8 +31,28 @@ export const AjaxComponent = () => {
         ])
     }
 
+    const getUsuariosAjaxPms = () => {
+        fetch("https://reqres.in/api/users?page=1").then(
+            respuesta => respuesta.json()
+        ).then(resultado_final => {
+            setusuarios(resultado_final.data)
+            console.log(resultado_final.data)
+        }, error=>{
+            console.log(error);
+        })
+    }
+
+    const getUsuariosAjaxAsyncAwait = async() => {
+        const peticion = await fetch("https://reqres.in/api/users?page=1");
+        const {data} = await peticion.json();
+
+        setusuarios(data);
+
+        console.log(data);
+    }
+
     useEffect(() => {
-        getUsuariosEstaticos();
+        getUsuariosAjaxAsyncAwait();
     }, [])
 
     return (
