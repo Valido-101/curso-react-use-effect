@@ -5,6 +5,9 @@ export const PruebasComponent = () => {
 
     const [usuario, setUsuario] = useState("Jesús Valido");
 
+    //contador de modificaciones usando useEffect
+    const [contador, setContador] = useState(0);
+
     //Este Hook se ejecuta cada al cargar el componente y cada vez que se hace cualquier cambio en cualquier
     //etiqueta de este componente (input, button, etc)
     useEffect(() => {
@@ -18,7 +21,10 @@ export const PruebasComponent = () => {
 
     //En este caso, el useEffect solo se ejecuta al modificar el usuario
     useEffect(() => {
-        console.log("Has modificado el usuario");
+        setContador(contador+1);
+
+        console.log("Has modificado el usuario: " + contador);
+
     }, [usuario]);
 
   return (
@@ -27,7 +33,7 @@ export const PruebasComponent = () => {
             El efecto - Hook useEffect
         </h1>
 
-        <strong>
+        <strong className={contador >= 10 ? 'labelUsuario label-green' : 'labelUsuario'}>
             {usuario}
         </strong>
 

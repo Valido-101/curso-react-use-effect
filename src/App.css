@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.labelUsuario{
+  background-color: #61dafb;
+  border-radius: 10px;
+}
+
+.label-green{
+  background-color: darkgreen;
+}
