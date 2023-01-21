@@ -1,8 +1,13 @@
+import { async } from 'q';
 import React, { useEffect, useState } from 'react'
 
 export const AjaxComponent = () => {
 
     const [usuarios, setusuarios] = useState([]);
+
+    const [cargando, setCargando] = useState(true);
+
+    const [errores, setErrores] = useState("");
 
     //genérico / básico
     const getUsuariosEstaticos = () => {
@@ -37,36 +42,68 @@ export const AjaxComponent = () => {
         ).then(resultado_final => {
             setusuarios(resultado_final.data)
             console.log(resultado_final.data)
-        }, error=>{
+        }, error => {
             console.log(error);
         })
     }
 
-    const getUsuariosAjaxAsyncAwait = async() => {
-        const peticion = await fetch("https://reqres.in/api/users?page=1");
-        const {data} = await peticion.json();
+    const getUsuariosAjaxAsyncAwait = () => {
+        setTimeout(async () => {
+            try {
+                const peticion = await fetch("https://reqres.in/api/users?page=1");
+                const { data } = await peticion.json();
 
-        setusuarios(data);
+                setusuarios(data);
 
-        console.log(data);
+                console.log(data);
+                setCargando(false);
+            } catch (error) {
+                console.log(error.message);
+                setErrores(error.message);
+            }
+        }, 2000)
     }
 
     useEffect(() => {
         getUsuariosAjaxAsyncAwait();
     }, [])
 
-    return (
-        <div>
-            <h2>Listado de usuarios vía Ajax</h2>
+    if (errores !== "") {
+
+        return (
+            <div className='errores'>
+                {errores}
+            </div>
+        );
+
+    } else if (cargando === true) {
+        //trozo de plantilla cargando
+        return (
+            <div className='cargando'>
+                Cargando Datos...
+            </div>
+        )
+    }
+    else if (cargando === false && errores === "") {
+        //trozo de plantilla cuando todo ha ido bien
+        return (
+            <div>
+                <h2>Listado de usuarios vía Ajax</h2>
 
 
-            <ol className='usuarios'>
-                {
-                    usuarios.map(usuario => {
-                        return <li key={usuario.id}>{usuario.first_name} {usuario.last_name}</li>
-                    })
-                }
-            </ol>
-        </div>
-    )
+                <ol className='usuarios'>
+                    {
+                        usuarios.map(usuario => {
+                            return (<li key={usuario.id}>
+                                <img src={usuario.avatar} width='80' />
+                                {usuario.first_name} {usuario.last_name}
+                            </li>)
+                        })
+                    }
+                </ol>
+            </div>
+        )
+    }
+
+
 }
