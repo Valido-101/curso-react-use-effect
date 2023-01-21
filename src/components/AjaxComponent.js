@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { UsuarioComponent } from './UsuarioComponent';
 
 export const AjaxComponent = () => {
 
@@ -43,7 +44,7 @@ export const AjaxComponent = () => {
             <ol className='usuarios'>
                 {
                     usuarios.map(usuario => {
-                        return <li key={usuario.id}>{usuario.first_name} {usuario.last_name}</li>
+                        return <UsuarioComponent email={usuario.email} first_name={usuario.first_name} last_name={usuario.last_name} avatar={usuario.avatar}/>
                     })
                 }
             </ol>
