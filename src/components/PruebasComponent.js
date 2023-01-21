@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import { AvisoComponent } from './AvisoComponent';
 
 export const PruebasComponent = () => {
 
@@ -42,6 +43,8 @@ export const PruebasComponent = () => {
                     onChange={e => (setUsuario(e.target.value))}
                     placeholder="Cambia el usuario"/>
         </form>
+
+        {usuario == "VICTOR" && <AvisoComponent/>}
     </div>
   )
 }
